@@ -6,7 +6,7 @@ This project investigates numerical methods for solving the gravitational N-body
 - Leapfrog Integrator
 - Fourth-Order Runge-Kutta (RK4)
 
-The project focuses on orbital stability, energy conservation, and the emergence of chaotic behavior in multi-body systems. Simulations include both stable two-body orbital systems and chaotic three-body interactions.
+The project focuses on orbital stability, energy conservation, numerical convergence, and the emergence of chaotic behavior in multi-body systems. Simulations include both stable two-body orbital systems and chaotic three-body interactions.
 
 ---
 
@@ -35,7 +35,9 @@ This project explores how different numerical integration schemes affect the acc
 - Two-body orbital simulations
 - Three-body chaotic systems
 - Energy conservation diagnostics
+- Integrator convergence studies
 - Orbit visualization
+- Animation generation
 - Integrator comparison tools
 - Command-line simulation interface
 
@@ -66,10 +68,13 @@ ASTR4470-finalproject/
 │   ├── energy_comparison_two_body.png
 │   ├── energy_error_two_body.png
 │   ├── movie_two_body_leapfrog.gif   
+│   ├── timestep_convergence.png   
 │   └── ...
 │
 ├── run_simulation.py
 ├── compare_integrators.py
+├── analyze_results.py
+├── timestep_study.py
 ├── make_movie.py
 │
 ├── README.md
@@ -83,14 +88,14 @@ ASTR4470-finalproject/
 
 Clone the repository:
 
-```text
+```bash
 git clone git@github.com:kassbell/ASTR4470-finalproject.git
 cd ASTR4470-finalproject
 ```
 
 Install dependencies:
 
-```text
+```bash
 pip install -r requirements.txt
 ```
 
@@ -101,12 +106,14 @@ pip install -r requirements.txt
 The main simulation script supports different systems and numerical integrators through command-line arguments.
 
 Example: Two-Body Leapfrog Simulation
-```text
+
+```bash
 python run_simulation.py --system two_body --method leapfrog
 ```
 
 Example: Three-Body RK4 Simulation
-```text
+
+```bash
 python run_simulation.py --system three_body --method rk4
 ```
 
@@ -115,22 +122,26 @@ python run_simulation.py --system three_body --method rk4
 ## Command-Line Options
 
 ### Systems:
-- two_body
-- three_body
+
+- `two_body`
+- `three_body`
 
 ### Integrators:
-- euler
-- leapfrog
-- rk4
+
+- `euler`
+- `leapfrog`
+- `rk4`
 
 ### Optional Parameters:
-```text
+
+```bash
 --dt       timestep size
 --nsteps   number of simulation steps
 ```
 
 Example:
-```text
+
+```bash
 python run_simulation.py --system two_body --method leapfrog --dt 0.001 --nsteps 10000
 ```
 
@@ -140,16 +151,96 @@ python run_simulation.py --system two_body --method leapfrog --dt 0.001 --nsteps
 
 The comparison script loads saved simulation data and generates orbit and energy comparison plots.
 
-Example
-```text
+Example:
+
+```bash
 python compare_integrators.py --system two_body
 ```
+
 This generates:
+
 - Orbit comparison plots
 - Total energy comparison plots
 - Relative energy error plots
 
 --- 
+
+## Energy Drift Analysis
+
+The analysis script quantitatively compares integrator performance by computing energy drift and relative energy errors from saved simulation data.
+
+Example:
+
+```bash
+python analyze_results.py --system two_body
+```
+
+The script reports:
+
+- Initial total energy
+- Final total energy
+- Relative energy drift
+- Maximum relative energy error
+
+This provides a quantitative comparison of long-term numerical stability between integrators.
+
+---
+
+## Timestep Convergence Study
+
+The timestep convergence study evaluates how numerical accuracy changes as the timestep size decreases.
+
+Example:
+
+```bash
+python timestep_study.py
+```
+
+The script:
+
+- Runs simulations at multiple timestep sizes
+- Measures relative energy drift
+- Generates a log-log convergence plot
+
+Output figure:
+
+```text
+plots/timestep_convergence.png
+```
+
+This study demonstrates the convergence properties and numerical behavior of different integration methods.
+
+---
+
+## Animation Generation
+
+Simulation movies can be generated directly from saved trajectory data.
+
+Example:
+
+```bash
+python make_movie.py --system three_body --method leapfrog
+```
+
+Optional downsampling:
+
+```bash
+python make_movie.py --system three_body --method leapfrog --stride 50
+```
+
+Generated animations are saved in:
+
+```text
+plots/
+```
+
+Example output:
+
+```text
+movie_three_body_leapfrog.gif
+```
+
+---
 
 ## Numerical Methods
 
@@ -184,33 +275,44 @@ Three-body systems exhibit chaotic behavior and strong sensitivity to initial co
 
 These simulations demonstrate the necessity of numerical methods for studying realistic gravitational systems.
 
---- 
+### Convergence Results
+
+The timestep convergence study shows that decreasing timestep size improves energy conservation for all integrators, though the rate of improvement depends strongly on the numerical method used.
+
+---
 
 ## Output Files
 
 Simulation outputs are automatically saved to:
 
-<code>data/</code>
-- Trajectories (<code>traj_*.npy</code>)
-- Energy histories (<code>energy_*.npy</code>)
+`data/`
 
-<code>plots/</code>
+- Trajectories (`traj_*.npy`)
+- Energy histories (`energy_*.npy`)
+
+`plots/`
+
 - Orbit visualizations
 - Energy comparison plots
 - Relative energy error plots
+- Convergence study plots
+- Simulation animations
 
 File names are automatically labeled by system and integrator.
 
 Example:
+
 ```text
 traj_two_body_leapfrog.npy
 energy_three_body_rk4.npy
 orbit_two_body_leapfrog.png
+movie_two_body_leapfrog.gif
 ```
 
 --- 
 
 ## Dependencies
+
 - numpy
 - matplotlib
 - ipython
@@ -220,6 +322,7 @@ orbit_two_body_leapfrog.png
 ## Future Improvements
 
 Potential future extensions include:
+
 - Adaptive timestep methods
 - Barnes-Hut tree algorithms
 - Larger N-body systems
