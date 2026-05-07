@@ -65,10 +65,12 @@ ASTR4470-finalproject/
 │   ├── orbit_comparison_two_body.png
 │   ├── energy_comparison_two_body.png
 │   ├── energy_error_two_body.png
+│   ├── movie_two_body_leapfrog.gif   
 │   └── ...
 │
 ├── run_simulation.py
 ├── compare_integrators.py
+├── make_movie.py
 │
 ├── README.md
 ├── requirements.txt
