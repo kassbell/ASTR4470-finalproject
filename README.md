@@ -98,13 +98,12 @@ pip install -r requirements.txt
 
 The main simulation script supports different systems and numerical integrators through command-line arguments.
 
-### Example: Two-Body Leapfrog Simulation
-
+Example: Two-Body Leapfrog Simulation
 ```text
 python run_simulation.py --system two_body --method leapfrog
 ```
 
-### Example: Three-Body RK4 Simulation
+Example: Three-Body RK4 Simulation
 ```text
 python run_simulation.py --system three_body --method rk4
 ```
@@ -139,7 +138,7 @@ python run_simulation.py --system two_body --method leapfrog --dt 0.001 --nsteps
 
 The comparison script loads saved simulation data and generates orbit and energy comparison plots.
 
-### Example
+Example
 ```text
 python compare_integrators.py --system two_body
 ```
@@ -200,8 +199,7 @@ Simulation outputs are automatically saved to:
 
 File names are automatically labeled by system and integrator.
 
-### Example:
-
+Example:
 ```text
 traj_two_body_leapfrog.npy
 energy_three_body_rk4.npy
@@ -231,8 +229,8 @@ Potential future extensions include:
 ---
 
 ## Author
-Kass Bell
-ASTR4470 Final Project
+Kass Bell \
+ASTR4470 Final Project \
 University of Virginia
 
 ---
